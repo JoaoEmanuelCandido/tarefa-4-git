@@ -1,0 +1,27 @@
+name: Tarefa Git Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Checagem do index.html
+        run: |
+          if [ ! -f public/index.html ]; then
+            echo "O arquivo index.html não foi encontrado!"
+            exit 1
+          fi
+
+      - name: Enviando para o GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+
